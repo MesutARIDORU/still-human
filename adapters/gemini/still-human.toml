@@ -1,0 +1,8 @@
+description = "Still Human? Finds and removes the marks of AI writing in English text"
+
+prompt = """
+First read <SKILL-PATH>/SKILL.md and follow its instructions. The scripts are in <SKILL-PATH>/scripts,
+the reference files in <SKILL-PATH>/references. Handle the request below according to those instructions.
+
+{{args}}
+"""
