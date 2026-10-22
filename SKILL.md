@@ -13,7 +13,7 @@ description: >
   insanlik-oldu-mu if it is installed) or when the user only wants a translation.
 license: MIT
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
   display-name: "Still Human?"
 compatibility: Any agent that can read files. The scripts need Python 3; without Python the measurements are made by hand.
 allowed-tools:
@@ -358,12 +358,15 @@ The default delivery is below. If the user wants only the text, give only the te
 If the user picked "Preview" after the delivery, asked for the page, or typed "preview" later, build an interactive review page. You need to be able to run Python and write files.
 
 The page is a single HTML file that looks like a page in a notebook:
-- In the text, only the changed words are marked: medium weight with a very faint yellow highlighter behind them. Where something was deleted, a small "[deleted]" note sits.
-- Clicking a change opens a sticky note with the earlier version and the reason. The user can pick the old or the new version, ask for another suggestion, or add a note.
+- In the text, only the changed words are marked: medium weight with a very faint yellow highlighter behind them. Where something was deleted, a small "[deleted]" note sits. Questions in square brackets are orange.
+- Clicking a change opens a note card with three parts: "Original" (removed words struck through), "Suggested" (added words in bold) and "Other options" (the same sentence shorter, more formal and warmer). The user decides with "Keep", "Revert", "Use" next to an option, or "Write my own", and can add a note.
+- On a wide screen the card opens beside the page, in a narrow window under the sentence, on a phone from the bottom of the screen. Marks in the margin and the bar at the bottom show which changes have been looked at.
 - The user makes their decisions and presses "Send to agent". If the page was opened without the bridge, the button reads "Copy feedback" and the user pastes the message into the chat.
 
 Building the page takes two steps. The original text was saved as "before" in step 1 and the final text as "after" in step 4; you don't need to write any files.
-1. Prepare the reasons as JSON. The page splits changes sentence by sentence, so make **one entry per changed sentence**. Put the sentences into "before" and "after" exactly as they appear in the texts, character for character, in the order they occur. The page uses these entries as anchors, so even in a heavy rewrite every old sentence lines up with its new one. For a deleted sentence, leave "after" empty:
+1. Prepare the reasons as JSON. The page splits changes sentence by sentence, so make **one entry per changed sentence**. Put the sentences into "before" and "after" exactly as they appear in the texts, character for character, in the order they occur. The page uses these entries as anchors, so even in a heavy rewrite every old sentence lines up with its new one. For a deleted sentence, leave "after" empty.
+
+   For every sentence that isn't deleted, write three more versions in "alternatives": shorter, more formal and warmer. The card shows them under "Other options" and the user picks one with a click. The options follow the same rules: no facts that aren't in the source, the claim keeps its strength, placeholders stay where they are. If a version doesn't suit the text type ("warmer" in a specification, say), leave it out.
    ```json
    {
      "title": "LinkedIn announcement",
@@ -376,7 +379,12 @@ Building the page takes two steps. The original text was saved as "before" in st
        "approach": "Announcement voice and slogan ending removed; the missing figure is asked for."
      },
      "changes": [
-       {"before": "sentence in the original", "after": "sentence that replaced it", "reason": "short reason", "pattern": "R1"}
+       {"before": "sentence in the original", "after": "sentence that replaced it", "reason": "short reason", "pattern": "R1",
+        "alternatives": [
+          {"kind": "Shorter", "text": "the sentence, shorter"},
+          {"kind": "More formal", "text": "the sentence, more formal"},
+          {"kind": "Warmer", "text": "the sentence, warmer"}
+        ]}
      ]
    }
    ```
@@ -394,7 +402,7 @@ Building the page takes two steps. The original text was saved as "before" in st
 ## Live review
 
 A page opened with `--live` has two extra features:
-- **Suggest another:** the user types a request such as "more formal" or "shorter" and asks the agent for two or three options.
+- **Ask for other options:** on the card, the user types a request such as "more casual" or "with an idiom" and asks the agent for two or three options. If the notes have no "alternatives", the card asks for the shorter, more formal and warmer versions this way too.
 - **Send to agent:** the user sends their decisions straight to you instead of copying and pasting.
 
 The bridge answers a suggestion request in one of three ways. The user picks the engine in Settings. With "auto", the order is:
@@ -407,7 +415,7 @@ After opening the page and delivering, start listening:
 python3 <skill-dir>/scripts/bridge.py wait
 ```
 The command waits for an event (up to 9 minutes) and prints it:
-- **Suggestion request:** write two or three options that follow the rules (fidelity to the facts, no patterns, fitting the text around them) and send them. Then `wait` again.
+- **Suggestion request:** write two or three options that follow the rules (fidelity to the facts, no patterns, fitting the text around them) and send them. If the request is "Write three options, in this order: shorter, more formal, warmer.", write exactly three, in that order: the card labels them by position. Then `wait` again.
   ```bash
   python3 <skill-dir>/scripts/bridge.py reply --request 4 --suggestion "..." --suggestion "..." --suggestion "..."
   ```
@@ -495,3 +503,4 @@ The greeting "Hi team," stays as it was. It's the writer's choice, not a tell.
 | `scripts/review.py` | The interactive review page (if the user says "Preview" in step 5), with the bridge through `--live` |
 | `scripts/bridge.py` | The live bridge: `wait`, `reply`, `status`, `close` |
 | `scripts/install.py` | Setup: links the skill into agents, configures the bridge, runs a check |
+| `notebook/`, `notebook.json` | The shared core of the review page and the bridge, and the skill's identity. Copied from the notebook-review repository; you don't need to read or change them. `review.py` and `bridge.py` use them |

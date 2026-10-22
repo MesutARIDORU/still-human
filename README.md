@@ -83,18 +83,27 @@ The skill changes the skeleton first, then fills the gap with English's own tool
 
 If you choose to preview, the changes open on a page that looks like a notebook:
 - Only the changed words are marked: medium weight, with a very faint yellow highlighter behind them. Where something was deleted, a small "[deleted]" note sits.
-- Click a change to see the earlier version, the reason and your options: keep the new version, go back to the old one, ask for another suggestion, or add a note.
+- Click a sentence and a note card opens. It has three parts:
+  - **Original:** the old sentence, with the removed words struck through.
+  - **Suggested:** the new one, with the added words in bold.
+  - **Other options:** the same sentence shorter, more formal and warmer.
 
-![The review page: changed words in medium weight with a faint yellow highlighter; clicking one shows the earlier version and the options](assets/review-page.png)
+  You decide with "Keep", "Revert", "Use" next to the option you like, or "Write my own". The arrows at the top of the card move between changes.
+- On a wide screen the card opens beside the page, level with the sentence. In a narrow window, such as the browser inside your agent, it opens under the sentence; on a phone, from the bottom of the screen.
+- Marks in the margin and the bar at the bottom show which changes you've looked at and which you've reverted. Information asked for in square brackets is orange and counted.
+
+![The review page: the text in the notebook, the note card on the right with the original, the suggestion and the shorter, more formal and warmer options](assets/review-page.png)
 
 **The page talks to the agent.** When it's opened live:
-- In "Suggest another" you can ask for "more formal", "shorter" or "with an idiom", and the agent sends two or three options.
+- In the box at the bottom of the card you can ask for "more casual" or "with an idiom", and the agent sends two or three more options.
 - "Send to agent" sends your decisions to the chat, no copy and paste needed.
 
 Suggestions come from one of three places, which you choose in the page's settings:
 - the agent in your chat,
 - a copy of the chat that knows its context,
 - a quick call without context.
+
+The page and the bridge are shared with the Turkish skill İnsanlık öldü mü?. Both come from the [notebook-review](https://github.com/MesutARIDORU/notebook-review) repository and are copied into the skill's `notebook/` folder, so a fix to the page reaches both skills. The page's English lives in `notebook/strings/en.json`.
 
 **It measures, too.** `scripts/audit.py` counts the things detectors and editors notice:
 - sentence length variety and runs of same-length sentences,

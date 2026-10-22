@@ -43,7 +43,7 @@ import tempfile
 import time
 
 NAME = "still-human"
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 HERE = os.path.dirname(os.path.abspath(__file__))
 SKILL_ROOT = os.path.dirname(HERE)
 HOME = os.path.expanduser("~")
@@ -83,7 +83,7 @@ def preflight():
     if sys.version_info < (3, 8):
         sys.exit("Python 3.8 or newer is required.")
     say("✓", f"Python {sys.version.split()[0]}")
-    missing = [p for p in ["SKILL.md", "assets/review.html"] + [f"scripts/{s}" for s in SCRIPTS]
+    missing = [p for p in ["SKILL.md", "notebook.json", "notebook/template.html", "notebook/page.py", "notebook/bridge.py"] + [f"scripts/{s}" for s in SCRIPTS]
                if not os.path.exists(os.path.join(SKILL_ROOT, p))]
     if missing:
         sys.exit("Skill files are missing: " + ", ".join(missing))
@@ -220,7 +220,7 @@ def link(target_dir, label):
         return target
     os.makedirs(target_dir, exist_ok=True)
     if ARGS.copy:
-        shutil.copytree(SKILL_ROOT, target, ignore=shutil.ignore_patterns(".git", "__pycache__", "evals", "*.pyc"))
+        shutil.copytree(SKILL_ROOT, target, ignore=shutil.ignore_patterns(".git", ".github", "__pycache__", "evals", "*.pyc"))
         say("✓", f"{label}: copied ({target})")
     else:
         os.symlink(SKILL_ROOT, target)

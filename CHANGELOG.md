@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0 · New note card, shared notebook
+
+- **Note card:** a plain card with three parts: "Original" (removed words struck through), "Suggested" (added words in bold) and "Other options" (the same sentence shorter, more formal and warmer). You decide with "Keep", "Revert", "Use" next to an option, or "Write my own". Arrows at the top move between changes, and the card names the pattern.
+- **Responsive layout:** on a wide screen the card opens beside the page, level with the sentence and joined to it by a dashed line. In a narrow window it opens under the sentence; on a phone, from the bottom of the screen. In a narrow window a small note suggests opening the page in the browser.
+- **Margin marks and progress bar:** each changed line shows its state in the margin: not reviewed, kept, reverted, your own. The bar at the bottom shows progress and open questions, and "Keep the rest" accepts every change not yet looked at.
+- **Options in the notes:** the agent writes an `alternatives` field for each change. When the bridge is open and there are no options, the card asks the agent for the three versions, and the user can ask for something else.
+- **Shared notebook:** the review page and the live bridge moved to [notebook-review](https://github.com/MesutARIDORU/notebook-review), shared with the Turkish skill İnsanlık öldü mü?. A copy lives in `notebook/`, the skill's identity (name, language, pattern names) in `notebook.json`. `scripts/review.py` and `scripts/bridge.py` are now short scripts that call it; their commands and options are unchanged. `assets/review.html` is gone. A daily GitHub workflow (`.github/workflows/sync-notebook.yml`) keeps `notebook/` up to date.
+
 ## 1.0.0 · First release
 
 An agent skill that finds the marks of AI writing in English text and rewrites it in natural English without touching its facts. It works in Claude Code, Codex and Gemini CLI and installs with `npx skills`. It is the English counterpart of the Turkish skill [İnsanlık öldü mü?](https://github.com/MesutARIDORU/insanlik-oldu-mu), written for English from the ground up rather than translated.
