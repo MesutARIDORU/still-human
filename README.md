@@ -120,6 +120,12 @@ The page and the bridge are shared with the Turkish skill İnsanlık öldü mü?
 
 The delivery shows the before and after values side by side.
 
+## How it works
+
+`SKILL.md` is the skill's brain. The agent works through the text in five steps: it identifies the text, diagnoses it, writes, checks and delivers. `scripts/audit.py` measures the text and prints the genre and field guides, which come from the `references/` folder. If you want a preview, `scripts/review.py` builds the review page and `scripts/bridge.py` opens a bridge between the page and the agent that runs on your computer only. Requests for other versions and your decisions travel over that bridge, and the decisions come back to the text in a feedback round.
+
+![How Still Human? works: the five steps in the chat, the skill's scripts, the review page, the suggestion engines and the shared notebook both skills use](assets/architecture.png)
+
 ## Installation
 
 Still Human? works with Claude Code, Codex and Gemini CLI. You need Node.js (for `npx`) and Python 3.8 or newer. The scripts use only Python's standard library; nothing else gets installed.
