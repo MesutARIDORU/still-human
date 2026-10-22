@@ -89,8 +89,10 @@ If you choose to preview, the changes open on a page that looks like a notebook:
   - **Other options:** the same sentence shorter, more formal and warmer.
 
   You decide with "Keep", "Revert", "Use" next to the option you like, or "Write my own". The arrows at the top of the card move between changes.
-- On a wide screen the card opens beside the page, level with the sentence. In a narrow window, such as the browser inside your agent, it opens under the sentence; on a phone, from the bottom of the screen.
-- Marks in the margin and the bar at the bottom show which changes you've looked at and which you've reverted. Information asked for in square brackets is orange and counted.
+- On a wide screen the card opens beside the page at the top and stays there while the page scrolls. A thin dashed line joins it to the sentence. In a narrow window, such as the browser inside your agent, it opens under the sentence. On a phone it rises from the bottom of the screen.
+- Marks in the margin and the last line of the page show which changes you've looked at and which you've reverted. Information asked for in square brackets is orange and counted. Click "1 open question" to jump to the next one.
+- Hover over a change and small arrows appear at its start. They step through the suggestion, the shorter, more formal and warmer versions and the original, right in the text. The version's name shows beside them for a moment.
+- The eye button next to the title, or the `p` key, shows the final text with your decisions applied and nothing else. The same arrows appear there when you hover over a changed part.
 
 ![The review page: the text in the notebook, the note card on the right with the original, the suggestion and the shorter, more formal and warmer options](assets/review-page.png)
 

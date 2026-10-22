@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.2.0 · New touches on the page
+
+- **Versions in place:** hover over a change and small arrows appear above its first word. They step through the suggestion, the shorter, more formal and warmer versions and the original, right in the text, and the version's name shows beside them for a moment. The arrows sit at the start of the part, so they stay put when the text gets longer or shorter.
+- **Final text:** the eye button next to the title, or the `p` key, shows the text with your decisions applied, with no marks and no card. Hovering over a changed part there shows the same arrows.
+- **Card at the top:** on a wide screen the card opens beside the page at the top and stays there while the page scrolls. The dashed line runs from the sentence into the gap and along it to the card.
+- **The page's last line:** progress, open questions, "Keep the rest" and "Send to agent" moved from the floating bar onto the last line of the page. Click "1 open question" to go to the next question.
+- **Divider:** a thin highlighter stroke separates the skill's notes from the text.
+- **Readable card:** section names are clearer. The original is written in red pen, and the removed words are crossed out with a faint marker that runs behind the letters.
+- The Edit menu's "preview" is now "show the feedback", so it isn't confused with the final text.
+
 ## 1.1.0 · New note card, shared notebook
 
 - **Note card:** a plain card with three parts: "Original" (removed words struck through), "Suggested" (added words in bold) and "Other options" (the same sentence shorter, more formal and warmer). You decide with "Keep", "Revert", "Use" next to an option, or "Write my own". Arrows at the top move between changes, and the card names the pattern.

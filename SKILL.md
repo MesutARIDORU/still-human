@@ -13,7 +13,7 @@ description: >
   insanlik-oldu-mu if it is installed) or when the user only wants a translation.
 license: MIT
 metadata:
-  version: "1.1.0"
+  version: "1.2.0"
   display-name: "Still Human?"
 compatibility: Any agent that can read files. The scripts need Python 3; without Python the measurements are made by hand.
 allowed-tools:
@@ -360,7 +360,8 @@ If the user picked "Preview" after the delivery, asked for the page, or typed "p
 The page is a single HTML file that looks like a page in a notebook:
 - In the text, only the changed words are marked: medium weight with a very faint yellow highlighter behind them. Where something was deleted, a small "[deleted]" note sits. Questions in square brackets are orange.
 - Clicking a change opens a note card with three parts: "Original" (removed words struck through), "Suggested" (added words in bold) and "Other options" (the same sentence shorter, more formal and warmer). The user decides with "Keep", "Revert", "Use" next to an option, or "Write my own", and can add a note.
-- On a wide screen the card opens beside the page, in a narrow window under the sentence, on a phone from the bottom of the screen. Marks in the margin and the bar at the bottom show which changes have been looked at.
+- On a wide screen the card opens beside the page at the top, in a narrow window under the sentence, on a phone from the bottom of the screen. Marks in the margin and the last line of the page show which changes have been looked at.
+- Hovering over a change shows arrows at its start that switch between its versions in place. The eye button (or the `p` key) shows the final text with the decisions applied and no marks.
 - The user makes their decisions and presses "Send to agent". If the page was opened without the bridge, the button reads "Copy feedback" and the user pastes the message into the chat.
 
 Building the page takes two steps. The original text was saved as "before" in step 1 and the final text as "after" in step 4; you don't need to write any files.
