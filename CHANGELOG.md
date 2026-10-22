@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.3.0 · A notebook on the desk
+
+- **New look:** the review page is a sheet of ruled paper with punched holes, lying on a wooden desk. The text, the title and the card are written in Patrick Hand. The font and the textures (paper, tape, highlighter, wood) are embedded in the page, so it makes no outside requests.
+- **The text:** changed words sit on a green highlighter. Once a change is approved, its original stays readable, struck through, just above or before the new text.
+- **The margin:** each change has a numbered circle at its middle, and a change over several lines gets an orange crayon brace. The first sentence of its reason is written in the right margin with a small arrow. Circles of changes that sit close together stack instead of covering each other.
+- **The card:** a taped note card. "Apply the suggestion" (`1`) approves the change and opens the next one, with "Keep the original" (`2`) and "Edit it myself" (`3`) below it. Other versions are picked with the arrow beside them. A long card scrolls under its tape.
+- **The versions bubble:** hovering over a change opens a hand-drawn speech bubble, written in the red of the title's underline. It names the version in the text and its place in the list. ‹ › step through the versions and ▾ lists them all. On a page opened with the live bridge and nothing to choose from, the list can ask the agent. The bubble shows in the final-text preview too.
+- **Progress:** the last line counts the approved changes: "3 / 5 approved".
+- **Preferences:** the type setting is stored under a new name and defaults to handwriting. An earlier setting is ignored, so everyone sees the new page once as it comes.
+- **Reasons:** the first sentence of a reason is now a margin note, so SKILL.md asks for it to be short, with the detail in the second sentence.
+
 ## 1.2.0 · New touches on the page
 
 - **Versions in place:** hover over a change and small arrows appear above its first word. They step through the suggestion, the shorter, more formal and warmer versions and the original, right in the text, and the version's name shows beside them for a moment. The arrows sit at the start of the part, so they stay put when the text gets longer or shorter.

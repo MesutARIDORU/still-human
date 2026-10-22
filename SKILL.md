@@ -13,7 +13,7 @@ description: >
   insanlik-oldu-mu if it is installed) or when the user only wants a translation.
 license: MIT
 metadata:
-  version: "1.2.0"
+  version: "1.3.0"
   display-name: "Still Human?"
 compatibility: Any agent that can read files. The scripts need Python 3; without Python the measurements are made by hand.
 allowed-tools:
@@ -357,15 +357,16 @@ The default delivery is below. If the user wants only the text, give only the te
 
 If the user picked "Preview" after the delivery, asked for the page, or typed "preview" later, build an interactive review page. You need to be able to run Python and write files.
 
-The page is a single HTML file that looks like a page in a notebook:
-- In the text, only the changed words are marked: medium weight with a very faint yellow highlighter behind them. Where something was deleted, a small "[deleted]" note sits. Questions in square brackets are orange.
-- Clicking a change opens a note card with three parts: "Original" (removed words struck through), "Suggested" (added words in bold) and "Other options" (the same sentence shorter, more formal and warmer). The user decides with "Keep", "Revert", "Use" next to an option, or "Write my own", and can add a note.
-- On a wide screen the card opens beside the page at the top, in a narrow window under the sentence, on a phone from the bottom of the screen. Marks in the margin and the last line of the page show which changes have been looked at.
-- Hovering over a change shows arrows at its start that switch between its versions in place. The eye button (or the `p` key) shows the final text with the decisions applied and no marks.
+The page is a single HTML file that looks like a notebook sheet on a wooden desk:
+- In the text, changed words sit on a green highlighter. Once the user approves a change, its original stays above the new text, struck through. Where something was deleted, a small "[deleted]" note sits. Questions in square brackets are orange.
+- Each change has a numbered circle in the margin. The first sentence of its reason is written in the right margin as a short note.
+- Clicking a change opens a taped note card with three parts: "Original" (the old sentence, struck through), "Suggested" (the new one and its reason) and "Other options" (the same sentence shorter, more formal and warmer). The user decides with "Apply the suggestion", "Keep the original", "Edit it myself" or the arrow next to an option, and can add a note.
+- On a wide screen the card opens beside the page at the top, in a narrow window under the sentence, on a phone from the bottom of the screen. The last line of the page counts the approved changes.
+- Hovering over a change opens a bubble that switches between its versions in place. The eye button (or the `p` key) shows the final text with the decisions applied and no marks.
 - The user makes their decisions and presses "Send to agent". If the page was opened without the bridge, the button reads "Copy feedback" and the user pastes the message into the chat.
 
 Building the page takes two steps. The original text was saved as "before" in step 1 and the final text as "after" in step 4; you don't need to write any files.
-1. Prepare the reasons as JSON. The page splits changes sentence by sentence, so make **one entry per changed sentence**. Put the sentences into "before" and "after" exactly as they appear in the texts, character for character, in the order they occur. The page uses these entries as anchors, so even in a heavy rewrite every old sentence lines up with its new one. For a deleted sentence, leave "after" empty.
+1. Prepare the reasons as JSON. The page splits changes sentence by sentence, so make **one entry per changed sentence**. Put the sentences into "before" and "after" exactly as they appear in the texts, character for character, in the order they occur. The page uses these entries as anchors, so even in a heavy rewrite every old sentence lines up with its new one. For a deleted sentence, leave "after" empty. The first sentence of a reason is written in the page's margin, so keep it short and put the detail in the second: "Contrast framing. The facts stayed, the pattern went."
 
    For every sentence that isn't deleted, write three more versions in "alternatives": shorter, more formal and warmer. The card shows them under "Other options" and the user picks one with a click. The options follow the same rules: no facts that aren't in the source, the claim keeps its strength, placeholders stay where they are. If a version doesn't suit the text type ("warmer" in a specification, say), leave it out.
    ```json

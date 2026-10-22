@@ -81,20 +81,21 @@ The skill changes the skeleton first, then fills the gap with English's own tool
 
 **You have the last word.** The text and the change table arrive straight away. Then the skill asks in the chat: "Do you want to see the changes on the review page?" The options are "Preview" and "No thanks". Claude Code shows them as clickable options; in Codex and Gemini CLI you just type the answer.
 
-If you choose to preview, the changes open on a page that looks like a notebook:
-- Only the changed words are marked: medium weight, with a very faint yellow highlighter behind them. Where something was deleted, a small "[deleted]" note sits.
-- Click a sentence and a note card opens. It has three parts:
-  - **Original:** the old sentence, with the removed words struck through.
-  - **Suggested:** the new one, with the added words in bold.
+If you choose to preview, the changes open on a notebook sheet lying on a wooden desk:
+- Changed words sit on a green highlighter. Once you approve a change, its original stays just above the new text, struck through. Where something was deleted, a small "[deleted]" note sits.
+- Each change has a numbered circle in the margin. A change over several lines gets an orange crayon brace, and the first sentence of its reason is written in the right margin.
+- Click a sentence and a taped note card opens. It has three parts:
+  - **Original:** the old sentence, struck through.
+  - **Suggested:** the new one, with its reason below.
   - **Other options:** the same sentence shorter, more formal and warmer.
 
-  You decide with "Keep", "Revert", "Use" next to the option you like, or "Write my own". The arrows at the top of the card move between changes.
+  "Apply the suggestion" approves the change and moves to the next one. "Keep the original" leaves the old sentence, "Edit it myself" opens it for you to write, and the arrow next to another option takes that one. The keys 1, 2 and 3 do the same. The arrows at the top of the card move between changes.
 - On a wide screen the card opens beside the page at the top and stays there while the page scrolls. A thin dashed line joins it to the sentence. In a narrow window, such as the browser inside your agent, it opens under the sentence. On a phone it rises from the bottom of the screen.
-- Marks in the margin and the last line of the page show which changes you've looked at and which you've reverted. Information asked for in square brackets is orange and counted. Click "1 open question" to jump to the next one.
-- Hover over a change and small arrows appear at its start. They step through the suggestion, the shorter, more formal and warmer versions and the original, right in the text. The version's name shows beside them for a moment.
-- The eye button next to the title, or the `p` key, shows the final text with your decisions applied and nothing else. The same arrows appear there when you hover over a changed part.
+- The last line of the page counts the changes you've approved. Information asked for in square brackets is orange and counted. Click "1 open question" to jump to the next one.
+- Hover over a change and a hand-drawn bubble opens above it, naming the version in the text. ‹ › step through the suggestion, the shorter, more formal and warmer versions and the original, right in the text; ▾ lists them all so you can pick one.
+- The eye button next to the title, or the `p` key, shows the final text with your decisions applied and nothing else. The same bubble opens there when you hover over a changed part.
 
-![The review page: the text in the notebook, the note card on the right with the original, the suggestion and the shorter, more formal and warmer options](assets/review-page.png)
+![The review page: a notebook page on a wooden desk, the taped note card on the right, the versions bubble over a changed sentence](assets/review-page.png)
 
 **The page talks to the agent.** When it's opened live:
 - In the box at the bottom of the card you can ask for "more casual" or "with an idiom", and the agent sends two or three more options.
