@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.1 · New cover
+
+- **README cover:** the cover is redrawn in the review page's new look: a notebook sheet on a wooden desk, handwriting, green highlighter, the versions bubble and the taped card. The example is the same: "The new release isn't just an update — it's a transformative journey that doubles page speed." becomes "The new release makes pages twice as fast." The writing sits on the ruled lines.
+
 ## 1.3.0 · A notebook on the desk
 
 - **New look:** the review page is a sheet of ruled paper with punched holes, lying on a wooden desk. The text, the title and the card are written in Patrick Hand. The font and the textures (paper, tape, highlighter, wood) are embedded in the page, so it makes no outside requests.
