@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.4.0 · Preview on first use, Antigravity
+
+- **Preview on first use:** the first time the skill is used, the review page opens without asking. A taped note on the page asks what should happen from then on: "Open it every time", "Ask me first" or "Only when I ask". With "Only when I ask", the note shows how to open the page with a chat box that types "preview", "show it on the page" and "open the changes on the page". In Claude Code and Codex it also offers "always open in this chat" and "don't open in this chat".
+- **The choice lives in a file:** `~/.config/still-human/preferences.json`. Step 5 reads it with `bridge.py preview` before asking anything. With "Ask me first", a long text or one with many changes opens without asking. Change it on the Preview line in the page's settings, or by saying something like "always open the preview" in the chat.
+- **Antigravity:** the setup script finds Antigravity and links the skill into `~/.gemini/config/skills`, where it reads skills. `npx skills` puts no link there, so the skill didn't show up. After installing with `npx skills`: `python3 ~/.agents/skills/still-human/scripts/install.py --targets antigravity`. Details in INSTALL.md.
+- **Title:** "Still Human?" is back in Marker Felt, on the page, the cover and the screenshots.
+
 ## 1.3.1 · New cover
 
 - **README cover:** the cover is redrawn in the review page's new look: a notebook sheet on a wooden desk, handwriting, green highlighter, the versions bubble and the taped card. The example is the same: "The new release isn't just an update — it's a transformative journey that doubles page speed." becomes "The new release makes pages twice as fast." The writing sits on the ruled lines.

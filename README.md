@@ -8,7 +8,7 @@ You can often tell from the first line that an announcement, a post or an e-mail
 - There's an em dash in every paragraph, and a "delve", a "pivotal" and a "seamless" somewhere.
 - It ends on "The future is bright" or "What do you think? Let me know in the comments!"
 
-**Still Human?** is an agent skill that finds these marks and rewrites the text the way a person would write it, without touching its facts. It works in Claude Code, Codex and Gemini CLI, and any agent that can read files can use its instructions (`SKILL.md`).
+**Still Human?** is an agent skill that finds these marks and rewrites the text the way a person would write it, without touching its facts. It works in Claude Code, Codex, Gemini CLI and Antigravity, and any agent that can read files can use its instructions (`SKILL.md`).
 
 Writing in Turkish? The sibling skill is [İnsanlık öldü mü?](https://github.com/MesutARIDORU/insanlik-oldu-mu).
 
@@ -134,7 +134,7 @@ The delivery shows the before and after values side by side.
 
 ## Installation
 
-Still Human? works with Claude Code, Codex and Gemini CLI. You need Node.js (for `npx`) and Python 3.8 or newer. The scripts use only Python's standard library; nothing else gets installed.
+Still Human? works with Claude Code, Codex, Gemini CLI and Antigravity. You need Node.js (for `npx`) and Python 3.8 or newer. The scripts use only Python's standard library; nothing else gets installed.
 
 `npx skills` does the installing. It puts a single copy of the skill into the shared `~/.agents/skills` folder and records it in the lock file (`~/.agents/.skill-lock.json`). Codex and Gemini CLI read the skill from that folder, and Claude Code gets a link to it. If your other skills were installed the same way, they all live in one place.
 
@@ -167,10 +167,11 @@ The command asks, in this order:
 
 ### Optional settings
 
-That's the installation done; the skill is ready to use. If you want any of these three things, the setup script in the installed copy does them:
+That's the installation done; the skill is ready to use. If you want any of these, the setup script in the installed copy does them:
 - **Claude Code:** adds permissions so the skill and its scripts run without asking each time. It backs up your settings file first.
 - **Codex:** if you have many skills installed, Codex may not pick this one by itself. The script adds a three-line routing note to Codex's global instructions.
 - **Gemini CLI:** adds the `/still-human` command.
+- **Antigravity:** links the skill into Antigravity's folder (`~/.gemini/config/skills`). `npx skills` doesn't, so if you use Antigravity this step is needed; without it the skill doesn't show up there.
 
 ```bash
 python3 ~/.agents/skills/still-human/scripts/install.py

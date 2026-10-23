@@ -4,7 +4,7 @@ Still Human? is plain Markdown plus a few small Python scripts. Any agent that c
 
 ## With npx skills
 
-The skill goes into the shared `~/.agents/skills` folder as a single copy and is recorded in the `~/.agents/.skill-lock.json` lock file. Codex and Gemini CLI read the skill from that folder. Claude Code looks in its own folder, so `npx skills` puts a link to the shared copy there.
+The skill goes into the shared `~/.agents/skills` folder as a single copy and is recorded in the `~/.agents/.skill-lock.json` lock file. Codex and Gemini CLI read the skill from that folder. Claude Code looks in its own folder, so `npx skills` puts a link to the shared copy there. Antigravity reads its own folder too, but `npx skills` puts no link there. If you use Antigravity, run the setup script after installing (see Antigravity).
 
 ### One command
 
@@ -56,15 +56,16 @@ python3 ~/.agents/skills/still-human/scripts/install.py
 
 The script doesn't install the skill again. In order, it:
 
-1. Finds Claude Code, Codex and Gemini CLI on your computer, and checks which live-bridge engines each supports (forked session, stateless call).
+1. Finds Claude Code, Codex, Gemini CLI and Antigravity on your computer, and checks which live-bridge engines each supports (forked session, stateless call).
 2. Asks which tools to set up. The ones it found are ticked. Type the numbers separated by commas; Enter takes the ticked ones, 0 takes none:
    ```
    Which tools should be set up?
      1) [x] Claude Code   found · 2.1.300 (Claude Code) · link and script permissions
      2) [x] Codex         found · codex-cli 0.162.1 · routing note
      3) [x] Gemini CLI    found · 0.60.0 · /still-human command
+     4) [x] Antigravity   found · ~/.gemini/config/skills · skill link
    ```
-3. Checks whether Claude Code's skill folder (`~/.claude/skills/still-human`) has a link. If Claude Code wasn't selected during installation, it adds the link to the same copy. It doesn't add a link for Codex, which reads the shared folder itself; otherwise the skill would show up twice.
+3. Checks whether Claude Code's skill folder (`~/.claude/skills/still-human`) has a link. If Claude Code wasn't selected during installation, it adds the link to the same copy. It doesn't add a link for Codex, which reads the shared folder itself; otherwise the skill would show up twice. For Antigravity it adds a link to the same copy at `~/.gemini/config/skills/still-human`, because `npx skills` leaves Antigravity out.
 4. Writes the `~/.gemini/commands/still-human.toml` command for Gemini CLI.
 5. Writes the bridge config to `~/.config/still-human/config.json`.
 6. Asks whether Claude Code may run the skill and its scripts without asking each time: a `Skill(still-human)` rule and one `Bash(python3 …)` rule per script. If you agree, it backs up `~/.claude/settings.json` first. Without these permissions, Claude Code asks the first time the skill runs and before each script.
@@ -77,16 +78,16 @@ Options:
 |---|---|
 | `--dry-run` | Shows what it would do without changing anything |
 | `--yes` | Runs without asking. Leaves the permissions and the Codex note alone |
-| `--targets claude,codex` | Runs without asking, only for the tools named. `all` means every tool found |
+| `--targets claude,codex` | Runs without asking, only for the tools named: `claude`, `codex`, `gemini`, `antigravity`. `all` means every tool found |
 | `--permissions` | Adds the skill and script permissions to Claude Code |
 | `--codex-routing` | Adds the routing note to Codex's global instructions (`~/.codex/AGENTS.override.md` if it exists, otherwise `~/.codex/AGENTS.md`) |
 | `--try-engine` | Tries the stateless suggestion engine with a real call. Uses a little of your quota |
 | `--no-check` | Skips the check at the end |
 
-All three settings at once, without questions:
+Every setting at once, without questions:
 
 ```bash
-python3 ~/.agents/skills/still-human/scripts/install.py --targets claude,codex,gemini --permissions --codex-routing
+python3 ~/.agents/skills/still-human/scripts/install.py --targets claude,codex,gemini,antigravity --permissions --codex-routing
 ```
 
 ## Without Node.js
@@ -101,7 +102,7 @@ git clone https://github.com/MesutARIDORU/still-human.git ~/still-human
 python3 ~/still-human/scripts/install.py
 ```
 
-Run from the repository, the script asks which tools to install into and links the skill there itself: `~/.claude/skills/still-human` for Claude Code, `~/.codex/skills/still-human` for Codex. Because it's a link, updating the repository with `git pull` updates the skill too. Add `--copy` to copy instead of linking. The other steps are the same as the settings above.
+Run from the repository, the script asks which tools to install into and links the skill there itself: `~/.claude/skills/still-human` for Claude Code, `~/.codex/skills/still-human` for Codex, `~/.gemini/config/skills/still-human` for Antigravity. Because it's a link, updating the repository with `git pull` updates the skill too. Add `--copy` to copy instead of linking. The other steps are the same as the settings above.
 
 ## Notes by tool
 
@@ -126,6 +127,18 @@ Codex reads skills from the shared `~/.agents/skills` folder; if you installed w
 `npx skills` installs the skill into the shared folder that Gemini CLI reads. The setup script also writes the `~/.gemini/commands/still-human.toml` command, so you can call the skill by name: `/still-human [text]`. To add the command by hand, copy [adapters/gemini/still-human.toml](adapters/gemini/still-human.toml) into that folder and replace `<SKILL-PATH>` with `~/.agents/skills/still-human`.
 
 In Gemini, "Suggest another" works only through the stateless call, since Gemini CLI can't fork a session. The stateless call also needs an account that can use Gemini CLI.
+
+### Antigravity
+
+Antigravity reads global skills from `~/.gemini/config/skills`; earlier versions looked in `~/.gemini/antigravity/skills`, and the setup script uses whichever is there. `npx skills` counts Antigravity among the agents that read the shared folder, so it puts no link there and the skill doesn't show up in Antigravity. After installing with `npx skills`, run:
+
+```bash
+python3 ~/.agents/skills/still-human/scripts/install.py --targets antigravity
+```
+
+The script links `~/.gemini/config/skills/still-human` to the shared copy, so `npx skills update` updates the skill in Antigravity too. Open a new chat in Antigravity and type `/still`: the skill shows up in the list. If it doesn't, restart Antigravity. On a version that doesn't follow the link, run the script with `--copy`, and run it again after every update.
+
+On the live bridge, the listening agent works in Antigravity too. The forked session doesn't, and the stateless call goes through Claude Code, Codex or Gemini CLI if one is installed. A preview choice "just for this chat" can't be saved by the bridge, since it can't identify an Antigravity chat; the agent remembers that choice for the rest of the chat itself.
 
 ### Other tools that read AGENTS.md
 
@@ -166,6 +179,7 @@ npx skills remove still-human -g
 
 If you ran the setup script, remove what it wrote too:
 - `~/.gemini/commands/still-human.toml`
+- The Antigravity link: `~/.gemini/config/skills/still-human`
 - `~/.config/still-human`
 - If you added Claude Code permissions: the `Skill(still-human)` and `still-human/scripts` lines in `~/.claude/settings.json`.
 - If you added the Codex routing note: the block between `still-human:start` and `still-human:end` in `~/.codex/AGENTS.override.md` (or `AGENTS.md`).

@@ -13,7 +13,7 @@ description: >
   insanlik-oldu-mu if it is installed) or when the user only wants a translation.
 license: MIT
 metadata:
-  version: "1.3.1"
+  version: "1.4.0"
   display-name: "Still Human?"
 compatibility: Any agent that can read files. The scripts need Python 3; without Python the measurements are made by hand.
 allowed-tools:
@@ -151,7 +151,7 @@ The user can change the preference in the chat too. When they do, run the same s
 - "always open the preview": `bridge.py preview --set always`
 - "ask me about the preview first": `bridge.py preview --set ask`
 - "only open the preview when I ask", "stop opening the preview": `bridge.py preview --set request`
-- "always open it in this chat": `bridge.py preview --chat on`. "Don't open the preview in this chat": `bridge.py preview --chat off`. These touch only this chat. If the script can't identify the chat (Gemini CLI) it fails; then remember the choice yourself for the rest of the chat.
+- "always open it in this chat": `bridge.py preview --chat on`. "Don't open the preview in this chat": `bridge.py preview --chat off`. These touch only this chat. If the script can't identify the chat (Gemini CLI, Antigravity) it fails; then remember the choice yourself for the rest of the chat.
 
 Whatever the preference, open the page when the user says "preview", "show it on the page" or "open the changes on the page". If they already asked for the page, deliver with it without checking the preference.
 
