@@ -79,7 +79,12 @@ The skill changes the skeleton first, then fills the gap with English's own tool
 
 **Every change has a reason.** Each delivery comes with a change table: before, after, why. The reasons come from a coded pattern catalog, so they stay consistent.
 
-**You have the last word.** The text and the change table arrive straight away. Then the skill asks in the chat: "Do you want to see the changes on the review page?" The options are "Preview" and "No thanks". Claude Code shows them as clickable options; in Codex and Gemini CLI you just type the answer.
+**You have the last word.** The text and the change table arrive straight away. The first time you use the skill, the review page opens on its own too, and a note on it asks what should happen from then on:
+- **Open it every time:** the page opens after every rewrite.
+- **Ask me first:** the skill asks in the chat: "Do you want to see the changes on the review page?" Claude Code shows clickable options; in Codex and Gemini CLI you just type the answer. For a long text or many changes it opens the page without asking.
+- **Only when I ask:** the page never opens on its own. Write "preview", "show it on the page" or "open the changes on the page" in the chat and it opens. The note shows this with a small typing animation.
+
+For one chat only, you can also say "always open it in this chat" or "don't open the preview in this chat". Your choice is kept in `~/.config/still-human/preferences.json`. Change it any time on the Preview line in the page's settings, or by saying something like "always open the preview" in the chat.
 
 If you choose to preview, the changes open on a notebook sheet lying on a wooden desk:
 - Changed words sit on a green highlighter. Once you approve a change, its original stays just above the new text, struck through. Where something was deleted, a small "[deleted]" note sits.

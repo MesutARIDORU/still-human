@@ -122,9 +122,24 @@ Look for your own tics too:
 - Does every closing land on a question?
 - Did you add anything that breaks fidelity to the facts?
 
-**5. Deliver, then ask about the preview.** Deliver the text first, in the output format below. Don't make the user wait for anything: the text and the table always come straight away.
+**5. Deliver, then decide about the preview.** Deliver the text first, in the output format below. Don't make the user wait for anything: the text and the table always come straight away.
 
-After a light touch or a full rewrite, ask in the chat, with options, whether the user wants to see the review page:
+After a light touch or a full rewrite, check the user's preview preference:
+```bash
+python3 <skill-dir>/scripts/bridge.py preview
+```
+The script prints one word:
+
+| Output | What you do |
+|---|---|
+| `first` | The skill is being used for the first time. Open the page live without asking (see Review page) and say in the chat: "This is your first time, so I opened the review page on my own. You can choose what happens from now on in the note on the page." The page asks that itself. |
+| `always` | Open the page live without asking and put its address in the chat. |
+| `ask` | Ask the multiple-choice question below. But if the text is over 300 words, has more than 8 changes, or leaves the user many decisions (questions in square brackets, options close to each other), open it without asking and say why in one line: "The text is long, so I opened the page; the changes are easier to go through there." |
+| `request` | Don't open it and don't ask. The page opens only when the user asks. |
+
+If the script doesn't run (no Python), act as for `ask`.
+
+The multiple-choice question:
 - **If you have a multiple-choice question tool** (AskUserQuestion in Claude Code), use it. Question: "Do you want to see the changes on the review page?" Options, in this order:
   - "Preview (Recommended)": the review page opens in the browser and the decisions are made there.
   - "No thanks": the text stays as it is.
@@ -132,8 +147,15 @@ After a light touch or a full rewrite, ask in the chat, with options, whether th
 
 If the user picks "Preview", or types "preview" later, open the page live (see Review page), put its address in the chat, then start listening. If they pick "No thanks" or move on to something else, don't ask again.
 
-Don't ask when:
-- The user already asked for the page ("show me on the page", "preview"). Deliver with the page.
+The user can change the preference in the chat too. When they do, run the same script, then confirm in one line:
+- "always open the preview": `bridge.py preview --set always`
+- "ask me about the preview first": `bridge.py preview --set ask`
+- "only open the preview when I ask", "stop opening the preview": `bridge.py preview --set request`
+- "always open it in this chat": `bridge.py preview --chat on`. "Don't open the preview in this chat": `bridge.py preview --chat off`. These touch only this chat. If the script can't identify the chat (Gemini CLI) it fails; then remember the choice yourself for the rest of the chat.
+
+Whatever the preference, open the page when the user says "preview", "show it on the page" or "open the changes on the page". If they already asked for the page, deliver with it without checking the preference.
+
+Don't open the page or ask when:
 - The user said they don't want the page, or only wants the text.
 - The mode is diagnose, write from scratch or feedback round.
 
@@ -355,7 +377,7 @@ The default delivery is below. If the user wants only the text, give only the te
 
 ## Review page
 
-If the user picked "Preview" after the delivery, asked for the page, or typed "preview" later, build an interactive review page. You need to be able to run Python and write files.
+If the preference in step 5 opens the page, the user picked "Preview" after the delivery, asked for the page, or typed "preview" later, build an interactive review page. You need to be able to run Python and write files.
 
 The page is a single HTML file that looks like a notebook sheet on a wooden desk:
 - In the text, changed words sit on a green highlighter. Once the user approves a change, its original stays above the new text, struck through. Where something was deleted, a small "[deleted]" note sits. Questions in square brackets are orange.
@@ -502,7 +524,7 @@ The greeting "Hi team," stays as it was. It's the writer's choice, not a tell.
 | `references/idioms.md` | Before using an idiom, or when you spot a dead cliché or a mangled idiom |
 | `references/sources.md` | To show a user where the rules come from |
 | `scripts/audit.py` | Measurement, text type guess, genre and field guides (step 1), before/after comparison (step 4). `--save` keeps the text, `--guide` prints guides, `--profile` prints only the guess |
-| `scripts/review.py` | The interactive review page (if the user says "Preview" in step 5), with the bridge through `--live` |
-| `scripts/bridge.py` | The live bridge: `wait`, `reply`, `status`, `close` |
+| `scripts/review.py` | The interactive review page (from the preference in step 5, or when the user asks), with the bridge through `--live` |
+| `scripts/bridge.py` | The live bridge: `wait`, `reply`, `status`, `close`. `preview` tells and changes the preview preference (step 5) |
 | `scripts/install.py` | Setup: links the skill into agents, configures the bridge, runs a check |
 | `notebook/`, `notebook.json` | The shared core of the review page and the bridge, and the skill's identity. Copied from the notebook-review repository; you don't need to read or change them. `review.py` and `bridge.py` use them |
