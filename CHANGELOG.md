@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.4.1 · In more tools
+
+- **Description:** the skill's description now starts with its trigger words ("Humanizes English text") and ends with its name. With many skills installed, Codex shortens descriptions, and the trigger words were in the part that got cut. On a computer with 230 skills, Codex now picks the skill without being told its name.
+- **Claude's chat:** every release gets a `still-human.zip`, which can be uploaded to Claude's desktop and web chat under Customize > Skills. In such an environment, where the user's browser can't reach the agent, the review page doesn't open live: it comes as a file to download, and the decisions come back by copy and paste.
+- **Where it works:** a table in the README says what was tested in each tool: Claude Code, Codex CLI, Codex in the ChatGPT desktop app, Antigravity, Gemini CLI and Claude's chat. It also notes that Gemini CLI doesn't run on free individual accounts, since Google turned it off for them.
+- **Update command:** `npx skills update -g still-human`. Without `-g` the command asks for a scope, Enter picks "Project", and the globally installed skill isn't updated.
+
 ## 1.4.0 · Preview on first use, Antigravity
 
 - **Preview on first use:** the first time the skill is used, the review page opens without asking. A taped note on the page asks what should happen from then on: "Open it every time", "Ask me first" or "Only when I ask". With "Only when I ask", the note shows how to open the page with a chat box that types "preview", "show it on the page" and "open the changes on the page". In Claude Code and Codex it also offers "always open in this chat" and "don't open in this chat".

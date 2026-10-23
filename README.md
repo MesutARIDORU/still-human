@@ -136,6 +136,19 @@ The delivery shows the before and after values side by side.
 
 Still Human? works with Claude Code, Codex, Gemini CLI and Antigravity. You need Node.js (for `npx`) and Python 3.8 or newer. The scripts use only Python's standard library; nothing else gets installed.
 
+### Where it works
+
+| Tool | Status | Install |
+|---|---|---|
+| Claude Code (in the terminal and in the Code tab of Claude's desktop app) | Works | `npx skills` |
+| Codex CLI | Works | `npx skills` |
+| Codex in the ChatGPT desktop app | Sees the skill | `npx skills`; it reads the same folder as Codex CLI |
+| Antigravity | With the setup script | `npx skills`, then the setup script with `--targets antigravity` |
+| Gemini CLI | Sees the skill, needs an account that can use it | `npx skills`. Google turned the CLI off for free individual accounts |
+| Claude's desktop and web chat | With the zip, untested | Upload the zip from the releases page in Customize > Skills |
+
+Tested on 23 October 2026, with the Turkish sibling skill [İnsanlık öldü mü?](https://github.com/MesutARIDORU/insanlik-oldu-mu), which installs the same way: Claude Code 2.1.300, Codex CLI 0.162.1, Codex 0.163.0-alpha inside ChatGPT 26.1016, and Gemini CLI 0.60.0. Codex CLI picked the skill without being told its name, out of 230 skills on that computer. If it doesn't, start your request with `$still-human`. Details and each tool's limits are in [INSTALL.md](INSTALL.md#notes-by-tool).
+
 `npx skills` does the installing. It puts a single copy of the skill into the shared `~/.agents/skills` folder and records it in the lock file (`~/.agents/.skill-lock.json`). Codex and Gemini CLI read the skill from that folder, and Claude Code gets a link to it. If your other skills were installed the same way, they all live in one place.
 
 ### One command
@@ -196,7 +209,7 @@ Give your agent an English text and say "humanize this". If the skill is at work
 To update:
 
 ```bash
-npx skills update still-human
+npx skills update -g still-human
 ```
 
 To remove:

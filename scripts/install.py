@@ -44,7 +44,7 @@ import tempfile
 import time
 
 NAME = "still-human"
-VERSION = "1.4.0"
+VERSION = "1.4.1"
 HERE = os.path.dirname(os.path.abspath(__file__))
 SKILL_ROOT = os.path.dirname(HERE)
 HOME = os.path.expanduser("~")
@@ -282,7 +282,7 @@ def install_shared(selected):
     code = subprocess.run(cmd, cwd=HOME).returncode
     installed = os.path.exists(os.path.join(SHARED_DIR, NAME, "SKILL.md"))
     if code == 0 and installed:
-        say("✓", f"Shared folder: installed ({os.path.join(SHARED_DIR, NAME)}) and recorded in the lock file. To update: npx skills update {NAME}")
+        say("✓", f"Shared folder: installed ({os.path.join(SHARED_DIR, NAME)}) and recorded in the lock file. To update: npx skills update -g {NAME}")
     else:
         say("!", f"Shared folder: the npx skills install did not finish (exit code {code}). To try by hand: npx skills add {source} -g")
     return os.path.join(SHARED_DIR, NAME)
@@ -480,7 +480,7 @@ def main(argv=None):
     agents = find_agents()
     print()
     if IN_SHARED:
-        print(f"· The skill is installed in the shared folder and will not be installed again. To update: npx skills update {NAME}\n")
+        print(f"· The skill is installed in the shared folder and will not be installed again. To update: npx skills update -g {NAME}\n")
     targets = choose_targets(agents)
     labels = dict(TARGETS)
     if not targets:

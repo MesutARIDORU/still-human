@@ -1,19 +1,19 @@
 ---
 name: still-human
 description: >
-  Still Human? Finds the marks that make English text read as AI-written and rewrites it in natural
-  English without touching its facts or meaning. Explains every change in a table and, on request,
-  opens a review page where each change can be kept, reverted or replaced. Use it when the user asks
-  to "humanize", "make it sound human", "make it sound less like AI / ChatGPT", "de-AI", "it sounds
-  robotic", "remove the AI tells", "rewrite this naturally", "tighten this up so it doesn't read like
-  a bot"; when they want a LinkedIn post, blog post, e-mail, announcement, product copy, report,
-  abstract or story to sound more human; when they ask "was this written by AI?"; when they want a
-  text written from scratch in natural English; or when they paste a message that starts with
-  "[Still Human? · feedback]". Do not use it for text in other languages (for Turkish text use
-  insanlik-oldu-mu if it is installed) or when the user only wants a translation.
+  Humanizes English text: finds the marks that make it read as written by AI or ChatGPT and rewrites it
+  in natural English without touching its facts or meaning. Use it when the user asks to "humanize",
+  "make it sound human", "make it sound less like AI / ChatGPT", "de-AI", "it sounds robotic", "remove
+  the AI tells", "rewrite this naturally", "tighten this up so it doesn't read like a bot"; when they
+  want a LinkedIn post, blog post, e-mail, announcement, product copy, report, abstract or story to
+  sound more human; when they ask "was this written by AI?"; when they want a text written from scratch
+  in natural English; or when they paste a message that starts with "[Still Human? · feedback]".
+  Explains every change in a table and, on request, opens a review page where each change can be kept,
+  reverted or replaced. Its name is Still Human? Do not use it for text in other languages (for Turkish
+  text use insanlik-oldu-mu if it is installed) or when the user only wants a translation.
 license: MIT
 metadata:
-  version: "1.4.0"
+  version: "1.4.1"
   display-name: "Still Human?"
 compatibility: Any agent that can read files. The scripts need Python 3; without Python the measurements are made by hand.
 allowed-tools:
@@ -137,7 +137,7 @@ The script prints one word:
 | `ask` | Ask the multiple-choice question below. But if the text is over 300 words, has more than 8 changes, or leaves the user many decisions (questions in square brackets, options close to each other), open it without asking and say why in one line: "The text is long, so I opened the page; the changes are easier to go through there." |
 | `request` | Don't open it and don't ask. The page opens only when the user asks. |
 
-If the script doesn't run (no Python), act as for `ask`.
+If the script doesn't run (no Python), act as for `ask`. If you run in the cloud, where the user's browser can't reach you (see Review page), the preference isn't kept there: treat `first` as `ask` too.
 
 The multiple-choice question:
 - **If you have a multiple-choice question tool** (AskUserQuestion in Claude Code), use it. Question: "Do you want to see the changes on the review page?" Options, in this order:
@@ -421,6 +421,8 @@ Building the page takes two steps. The original text was saved as "before" in st
    In "profile", write the decision you made in step 1. The page shows it at the top of the notebook as the "Text type". If you leave it out, the page uses the script's guess.
 
    `--live` serves the page through a local bridge, so the page can talk to you (see Live review). `--open` opens it in the browser. If the bridge can't start, the script says so and the page opens as a file. Put the address the script prints into the "Review page" line of the delivery.
+
+   **Where no browser can reach you:** in an environment that runs in the cloud, such as Claude's desktop or web chat, the user's browser can't reach your machine. Then don't use `--live` or `--open`. Write the page with `--output` to a place the user can download from (in Claude, `/mnt/user-data/outputs/review.html`) and hand it over as a file. On that page the button reads "Copy feedback", and the user pastes their decisions into the chat.
 
 
 ## Live review

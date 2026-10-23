@@ -41,8 +41,10 @@ The command first finds the skill and shows its description, then asks, in this 
 ### Updating
 
 ```bash
-npx skills update still-human
+npx skills update -g still-human
 ```
+
+The `-g` matters: without it the command asks for a scope, Enter picks "Project", and the globally installed skill isn't updated.
 
 If you're in an agent-based tool, you can also just tell the agent "Install this skill: https://github.com/MesutARIDORU/still-human". The agent reads this file and runs the one command.
 
@@ -118,11 +120,27 @@ Codex reads skills from the shared `~/.agents/skills` folder; if you installed w
 
 **Name and icon:** Codex reads the skill's display name and icon from `agents/openai.yaml`. The skill shows up as "Still Human?" with a skull icon.
 
-**Picking the skill:** with many skills installed, Codex may not pick this one by itself. The setup script offers to add a three-line routing note to Codex's global instructions for that (`--codex-routing`). If you'd rather not, start your request with `$still-human`.
+**Picking the skill:** Codex gives the initial list of skills a small share of its context and shortens descriptions when there are many skills. That's why the skill's description starts with its trigger words ("Humanizes English text"). On a computer with 230 skills installed, codex-cli 0.162.1 picked the Turkish sibling skill, which is written the same way, without being told its name. Still, with many skills installed, Codex may not pick this one by itself. The setup script offers to add a three-line routing note to Codex's global instructions for that (`--codex-routing`). If you'd rather not, start your request with `$still-human`.
 
 **Live bridge:** the bridge opens a local server on 127.0.0.1 only. If your sandbox settings are strict and Codex asks before running the command, allowing it for that session is enough. Suggestion calls run in a read-only sandbox.
 
+### ChatGPT desktop app
+
+The ChatGPT desktop app has its own Codex inside, and it reads the same skills folder as Codex CLI (`~/.agents/skills`). If you installed with `npx skills`, the skill is there already; nothing else is needed. Tested with Codex 0.163.0-alpha inside ChatGPT 26.1016: it finds skills in that folder. The Codex notes above (the routing note, `$still-human`) apply here too.
+
+### Claude's desktop and web chat
+
+Claude's desktop app has two separate places. The **Code** tab is Claude Code: it reads the skill from `~/.claude/skills`, where `npx skills` already put it. The **chat** takes skills from your Claude account, not from folders on your computer, and runs them in Claude's cloud environment. To add it to the chat:
+
+1. Turn on "Code execution and file creation" under Settings > Capabilities.
+2. Download `still-human.zip` from the [releases page](https://github.com/MesutARIDORU/still-human/releases/latest). It's attached to every release automatically.
+3. Upload the zip under Customize > Skills: "+" > "Create skill" > "Upload a skill".
+
+There, the measurements, the rewrite and the change table work. The review page doesn't open live: Claude hands it over as an HTML file to download, and you paste your decisions into the chat with the page's "Copy feedback". The preview preference isn't kept there. This route hasn't been tested yet. Claude's help page asks for the folder in the zip to have the skill's name, and the zip is built that way.
+
 ### Gemini CLI
+
+**Account:** Google turned Gemini CLI off for free individual Gemini Code Assist accounts. With such an account the CLI answers every request with "This client is no longer supported for Gemini Code Assist for individuals" and points to Antigravity. Tested on such an account with Gemini CLI 0.60.0: it finds skills in `~/.agents/skills` (`gemini skills list`), but no request runs. It works with a Gemini API key or a paid plan. With a free account, use Antigravity.
 
 `npx skills` installs the skill into the shared folder that Gemini CLI reads. The setup script also writes the `~/.gemini/commands/still-human.toml` command, so you can call the skill by name: `/still-human [text]`. To add the command by hand, copy [adapters/gemini/still-human.toml](adapters/gemini/still-human.toml) into that folder and replace `<SKILL-PATH>` with `~/.agents/skills/still-human`.
 
@@ -146,7 +164,7 @@ For tools that don't read the shared folder, first clone the repository. Then ad
 
 ### Web chat interfaces
 
-If the web interface of ChatGPT, Claude.ai or Gemini can't read files or run scripts, you can paste the contents of `SKILL.md` into the custom instructions, a Project or a Gem. Two things are then missing:
+For Claude's chat there's the zip above. If the web interface of ChatGPT, Claude.ai or Gemini can't read files or run scripts, you can paste the contents of `SKILL.md` into the custom instructions, a Project or a Gem. Two things are then missing:
 - The measurements are made by hand.
 - There's no review page.
 
