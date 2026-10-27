@@ -13,7 +13,7 @@ description: >
   text use insanlik-oldu-mu if it is installed) or when the user only wants a translation.
 license: MIT
 metadata:
-  version: "1.4.1"
+  version: "1.5.0"
   display-name: "Still Human?"
 compatibility: Any agent that can read files. The scripts need Python 3; without Python the measurements are made by hand.
 allowed-tools:
@@ -140,10 +140,10 @@ The script prints one word:
 If the script doesn't run (no Python), act as for `ask`. If you run in the cloud, where the user's browser can't reach you (see Review page), the preference isn't kept there: treat `first` as `ask` too.
 
 The multiple-choice question:
-- **If you have a multiple-choice question tool** (AskUserQuestion in Claude Code), use it. Question: "Do you want to see the changes on the review page?" Options, in this order:
+- **If you have a multiple-choice question tool**, use it: AskUserQuestion in Claude Code, ask_user in Gemini CLI, request_user_input in Codex when you're in Plan mode. Question: "Do you want to see the changes on the review page?" Options, in this order:
   - "Preview (Recommended)": the review page opens in the browser and the decisions are made there.
   - "No thanks": the text stays as it is.
-- **If there is no such tool** (Codex, Gemini CLI), end the delivery with: "Shall I open the review page? Just type **preview** or **no thanks**."
+- **If there is no such tool** (in Codex's default mode, for example), end the delivery with: "Shall I open the review page? Just type **preview** or **no thanks**."
 
 If the user picks "Preview", or types "preview" later, open the page live (see Review page), put its address in the chat, then start listening. If they pick "No thanks" or move on to something else, don't ask again.
 
@@ -158,6 +158,52 @@ Whatever the preference, open the page when the user says "preview", "show it on
 Don't open the page or ask when:
 - The user said they don't want the page, or only wants the text.
 - The mode is diagnose, write from scratch or feedback round.
+
+**6. Once a day, check for an update.** In every mode, after the delivery, run:
+```bash
+python3 <skill-dir>/scripts/bridge.py update
+```
+The script looks at the newest release on GitHub at most once a day and remembers the day it looked. The first line is one word:
+
+| Output | What you do |
+|---|---|
+| `available` | A new version is out. Do as described below. |
+| `current` | The version is up to date. Say nothing. |
+| `checked` | Today's look is already done. Say nothing. |
+| `unknown` | GitHub couldn't be reached or no version could be read. Say nothing. |
+
+The lines that follow: `installed` is the user's version, `latest` the new one, `url` the release notes. If there is a `reverted_from` line and it matches `latest`, the user has gone back from this version before.
+
+What you do with `available` depends on the length of the text you delivered. In diagnose mode, look at the user's text.
+- **Longer than 250 characters: update first, then ask.** While reading a long text the user may miss the question, so the recommended option is applied without waiting. Run `bridge.py update --apply` without asking. If the output is `updated`, ask with options: "I've updated Still Human?: [before] → [installed]. The new version takes effect the next time the skill runs. Release notes: [url]" Options, in this order:
+  - "OK (Recommended)": the new version stays.
+  - "Go back": I'll return to [before].
+
+  If the user doesn't answer or moves on, the new version stays. If the output isn't `updated`, act as for "Update" below. If `reverted_from` matches `latest`, don't update first: the user turned this version down once, so ask first even for a long text.
+- **250 characters or shorter: ask first.** Question with options: "A new version of Still Human? is out: [latest] (you have [installed]). Update now? Release notes: [url]" Options, in this order:
+  - "Update (Recommended)": the new version is installed and takes effect the next time the skill runs.
+  - "Not now": I'll ask again tomorrow.
+
+Ask with the same tool as the preview question. If you also need to ask the preview question, ask both in the same call as two separate questions. Without a question tool, put the question on the last line of the delivery and show the answers in bold: "Just type **OK** or **go back**." or "Just type **update** or **not now**."
+
+If the user picks "Update":
+```bash
+python3 <skill-dir>/scripts/bridge.py update --apply
+```
+- `updated`: say "Updated: [before] → [installed]. The new version takes effect the next time the skill runs."
+- `current`: say the skill is already up to date.
+- `failed`: give the error in one line and the command to update by hand: `npx skills update -g still-human`.
+- `manual`: the skill wasn't installed with `npx skills` or git, for example it was uploaded to a Claude chat as a zip. Give the releases page from the `download` line: the new zip has to be downloaded there and uploaded again.
+
+If the user picks "Go back":
+```bash
+python3 <skill-dir>/scripts/bridge.py update --revert
+```
+- `reverted`: say "Back on [installed]. I'll ask about [before] again tomorrow and won't install it unasked."
+- `failed`: give the error in one line.
+- `manual`: the skill runs from a git clone or was installed by hand. A clone may hold local changes, so the script doesn't go back on its own. Give the command from the `git` line, or the `npx` and `download` lines.
+
+If the user picks "Not now" or moves on to something else, do nothing. The script remembers that it looked today, so the question doesn't come back the same day; it comes back the next day, the first time the skill runs. If the user asks "is there an update?", run `bridge.py update --now`, which looks without waiting for the next day.
 
 
 ## Text types
@@ -527,6 +573,6 @@ The greeting "Hi team," stays as it was. It's the writer's choice, not a tell.
 | `references/sources.md` | To show a user where the rules come from |
 | `scripts/audit.py` | Measurement, text type guess, genre and field guides (step 1), before/after comparison (step 4). `--save` keeps the text, `--guide` prints guides, `--profile` prints only the guess |
 | `scripts/review.py` | The interactive review page (from the preference in step 5, or when the user asks), with the bridge through `--live` |
-| `scripts/bridge.py` | The live bridge: `wait`, `reply`, `status`, `close`. `preview` tells and changes the preview preference (step 5) |
+| `scripts/bridge.py` | The live bridge: `wait`, `reply`, `status`, `close`. `preview` tells and changes the preview preference (step 5). `update` looks for a new version once a day, `--apply` updates (step 6) |
 | `scripts/install.py` | Setup: links the skill into agents, configures the bridge, runs a check |
 | `notebook/`, `notebook.json` | The shared core of the review page and the bridge, and the skill's identity. Copied from the notebook-review repository; you don't need to read or change them. `review.py` and `bridge.py` use them |

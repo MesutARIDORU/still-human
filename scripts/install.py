@@ -44,7 +44,7 @@ import tempfile
 import time
 
 NAME = "still-human"
-VERSION = "1.4.1"
+VERSION = "1.5.0"
 HERE = os.path.dirname(os.path.abspath(__file__))
 SKILL_ROOT = os.path.dirname(HERE)
 HOME = os.path.expanduser("~")

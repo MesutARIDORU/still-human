@@ -40,6 +40,10 @@ The command first finds the skill and shows its description, then asks, in this 
 
 ### Updating
 
+Once a day, the first time it runs, the skill looks up the newest release through `api.github.com`. If there's a new one and the text it delivered is longer than 250 characters, it first updates itself with the command below, then asks "OK" or "Go back". For a shorter text it asks first: "Update" updates, "Not now" makes it ask again the next day. Going back reinstalls the earlier release's tag with `npx skills add`, and a release you went back from is never installed again unasked. The day it looked is kept in `~/.config/still-human/update.json`. Running from a git clone, it updates with `git pull --ff-only`; uploaded as a zip, it gives the releases page to download the new zip from.
+
+To update by hand:
+
 ```bash
 npx skills update -g still-human
 ```

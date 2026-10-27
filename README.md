@@ -81,7 +81,7 @@ The skill changes the skeleton first, then fills the gap with English's own tool
 
 **You have the last word.** The text and the change table arrive straight away. The first time you use the skill, the review page opens on its own too, and a note on it asks what should happen from then on:
 - **Open it every time:** the page opens after every rewrite.
-- **Ask me first:** the skill asks in the chat: "Do you want to see the changes on the review page?" Claude Code shows clickable options; in Codex and Gemini CLI you just type the answer. For a long text or many changes it opens the page without asking.
+- **Ask me first:** the skill asks in the chat: "Do you want to see the changes on the review page?" Claude Code and Gemini CLI show clickable options. Codex shows them in Plan mode; in its default mode you just type the answer. For a long text or many changes it opens the page without asking.
 - **Only when I ask:** the page never opens on its own. Write "preview", "show it on the page" or "open the changes on the page" in the chat and it opens. The note shows this with a small typing animation.
 
 For one chat only, you can also say "always open it in this chat" or "don't open the preview in this chat". Your choice is kept in `~/.config/still-human/preferences.json`. Change it any time on the Preview line in the page's settings, or by saying something like "always open the preview" in the chat.
@@ -206,7 +206,13 @@ Give your agent an English text and say "humanize this". If the skill is at work
 
 ### Updating and removing
 
-To update:
+Once a day, the first time it runs, the skill looks on GitHub for a new release. If there is one, after the delivery:
+- **For a text longer than 250 characters**, it updates itself straight away, then asks: "OK" or "Go back". If you don't answer, the new version stays, so the update happens even if you miss the question while reading a long text.
+- **For a shorter text**, it asks first: "Update" or "Not now". After "Not now" it asks again the next day.
+
+The new version takes effect the next time the skill runs. If you go back, it won't install that version again unasked. This sends one short request to GitHub a day; without internet the skill says nothing.
+
+To update by hand:
 
 ```bash
 npx skills update -g still-human

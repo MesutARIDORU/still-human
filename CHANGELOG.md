@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.5.0 · Daily update check
+
+- **New-version check:** once a day, the first time it runs, the skill looks at the newest release on GitHub. If there's a new one, it asks in the chat after the delivery whether to update: "Update" or "Not now". After "Not now" it doesn't ask again the same day; it asks the next day, the first time it runs. The day it looked is kept in `~/.config/still-human/update.json`.
+- **Long text, update first:** when the delivered text is longer than 250 characters, the skill updates without asking, then asks "OK" or "Go back". Without an answer the new version stays. "Go back" reinstalls the earlier release's tag, and a release the user went back from is never installed again unasked.
+- **Clickable questions:** the preview and update questions come with options through AskUserQuestion in Claude Code, ask_user in Gemini CLI and request_user_input in Codex's Plan mode. In Codex's default mode the question stays written.
+- **Updating itself:** on "Update", the skill runs `npx skills update -g still-human` if it was installed with `npx skills`, or `git pull --ff-only` if it runs from a git clone. A copy pinned to an older release is added again from the repository. The new version takes effect the next time it runs. Uploaded to Claude's chat as a zip, it gives the releases page to download the new zip from.
+- **Asking in the chat:** ask "is there an update?" and the skill looks straight away, without waiting for the next day.
+- **No internet:** if GitHub can't be reached, the skill says nothing. The request gives up after 4 seconds, and where Python from python.org lacks its certificates it tries again with the system's certificates or with `curl`.
+- **Shared notebook 1.4.0:** the check comes from notebook-review as `bridge.py update`, and `notebook.json` now names the skill's GitHub repository (`repo`).
+
 ## 1.4.1 · In more tools
 
 - **Description:** the skill's description now starts with its trigger words ("Humanizes English text") and ends with its name. With many skills installed, Codex shortens descriptions, and the trigger words were in the part that got cut. On a computer with 230 skills, Codex now picks the skill without being told its name.
